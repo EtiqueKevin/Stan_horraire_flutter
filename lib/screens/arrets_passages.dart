@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stan_horraire/models/arret.dart';
+import 'package:stan_horraire/models/favorite.dart';
 import 'package:stan_horraire/models/passage.dart';
+import 'package:stan_horraire/providers/favorite_provider.dart';
 import 'package:stan_horraire/providers/fetch_provider.dart';
 
 class ArretsPassages extends StatefulWidget {
@@ -43,6 +45,18 @@ class _ArretsPassagesState extends State<ArretsPassages> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Provider.of<FavoritesProvider>(context).isFavorite(Favorite(arret: widget.arret))
+                ? const Icon(Icons.favorite)
+                : const Icon(Icons.favorite_border),
+            onPressed: () {
+              setState(() {
+                Provider.of<FavoritesProvider>(context, listen: false).toggleFavorite(Favorite(arret: widget.arret));
+            });
+            },
+          ),
+        ],
         title:  
         Text(
           '${widget.arret.ligne!.numLignePublic} | Passages pour ${widget.arret.libelle}',

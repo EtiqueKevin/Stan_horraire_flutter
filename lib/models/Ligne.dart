@@ -16,4 +16,23 @@ class Ligne {
   void setImage(String image) {
     this.image = image;
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'numLignePublic': numLignePublic,
+      'osmId': osmId,
+      'libelle': libelle,
+      'image': image,
+    };
+  }
+
+  factory Ligne.fromMap(Map<String, dynamic> map) {
+    return Ligne(
+      id: map['id'],
+      numLignePublic: map['numLignePublic'],
+      osmId: map['osmId'],
+      libelle: map['libelle'],
+    );
+  }
 }

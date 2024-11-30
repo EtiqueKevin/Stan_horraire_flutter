@@ -1,21 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:html_unescape/html_unescape.dart';
 import 'package:provider/provider.dart';
+import 'package:stan_horraire/providers/favorite_provider.dart';
+import 'package:stan_horraire/screens/favorites_page.dart';
 import 'package:stan_horraire/screens/ligne_arrets.dart';
 
 import '../models/Ligne.dart';
 import '../providers/fetch_provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
   });
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override 
+  void initState() {
+    super.initState();
+    Provider.of<FavoritesProvider>(context, listen: false).loadFavorites();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
  appBar: AppBar(
         title: const Text('Lignes'),
+        actions: [
+          TextButton(
+            onPressed: () {
+               Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FavoritesPage(), // Naviguer vers la page des favoris
+                ),
+              );
+            },
+             child: Row(
+               children: [
+                 Text('Favoris', style: Theme.of(context).textTheme.bodyLarge),
+                  const Icon(Icons.favorite, color: Colors.white),
+               ],
+             ),
+          ),
+        ],
       ),
       body: const Center(
          child: FutureBuilderListeLigne(),
